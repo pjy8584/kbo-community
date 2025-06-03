@@ -1,0 +1,41 @@
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:root@localhost:3307/kbo_community"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  nickname  String
+  createdAt DateTime @default(now())
+
+  posts    Post[]    @relation("UserPosts") // ✅ 게시글 1:N
+  comments Comment[] @relation("UserComments") // ✅ 댓글 1:N 추가
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  authorId  Int
+
+  author   User      @relation("UserPosts", fields: [authorId], references: [id])
+  comments Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  authorId  Int
+  postId    Int
+
+  author User @relation("UserComments", fields: [authorId], references: [id])
+  post   Post @relation(fields: [postId], references: [id])
+}

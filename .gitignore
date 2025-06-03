@@ -1,0 +1,25 @@
+# Node modules
+**/node_modules
+
+# Build output
+**/dist
+**/.next
+**/out
+**/build
+
+# Logs
+*.log
+logs
+
+# Environment
+**/.env
+**/.env.*
+
+# OS
+.DS_Store
+
+# Prisma
+**/prisma/generated
+
+# Test
+coverage
